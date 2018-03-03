@@ -1,0 +1,8 @@
+a {
+  text-decoration: none;
+  color: #15d318;
+}
+
+a.dangerous {
+  color: red;
+}

@@ -1,0 +1,19 @@
+<h3>Add comment</h3>
+
+<%= render 'errors', model: @comment %>
+
+<%= form_for [@article, @comment] do |f| %>
+  <p>
+    <%= f.label :commenter %><br>
+    <%= f.text_field :commenter %>
+  </p>
+
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
