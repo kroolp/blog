@@ -21,6 +21,15 @@
   <%= @article.tags.join(' ') %>
 </p>
 
+<p>
+  <strong>Likes: </strong>
+  <%= @article.likes.count %>
+</p>
+
+<% if @user_like.nil? %>
+  <%= link_to 'LIKE', add_like_article_path(@article), method: :post %>
+<% end %>
+
 <h2>Comments</h2>
 <%= render @article.comments.order(created_at: :desc) %>
 

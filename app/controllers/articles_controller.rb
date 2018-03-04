@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :provide_article, only: [:show, :destroy, :edit, :update]
+  before_action :provide_article, only: [:show, :destroy, :edit, :update, :add_like]
 
   def index
     if params[:q].present?
@@ -25,6 +25,7 @@ class ArticlesController < ApplicationController
 
   def show
     @comment = Comment.new(commenter: session[:commenter])
+    @user_like = @article.likes.find_by(user: current_user)
   end
 
   def destroy
@@ -42,6 +43,12 @@ class ArticlesController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def add_like
+    @article.likes.create(user: current_user)
+
+    redirect_to article_path(@article)
   end
 
   private
