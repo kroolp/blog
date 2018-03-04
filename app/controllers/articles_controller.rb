@@ -4,7 +4,11 @@ class ArticlesController < ApplicationController
   before_action :provide_article, only: [:show, :destroy, :edit, :update]
 
   def index
-    @articles = Article.all
+    if params[:q].present?
+      @articles = Article.where("? = any(tags)", params[:q])
+    else
+      @articles = Article.all
+    end
   end
 
   def new
@@ -45,7 +49,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :text)
+    params.require(:article).permit(:title, :text, :tags)
   end
 
   def provide_article
