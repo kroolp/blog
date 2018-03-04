@@ -50,6 +50,7 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(:title, :text, :tags)
+          .merge(user: current_user)
   end
 
   def provide_article
