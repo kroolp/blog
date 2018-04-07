@@ -2,10 +2,12 @@ class ArticlesController < ApplicationController
   before_action :provide_article, only: [:show, :destroy, :edit, :update, :add_like]
 
   def index
-    if params[:q].present?
-      @articles = Article.where("? = any(tags)", params[:q])
-    else
-      @articles = Article.all
+    @articles = Article.all
+                       .paginate(:page => params[:page], :per_page => 20)
+                       .includes(:user)
+
+    if params[:query].present?
+      @articles = @articles.where("? = any(tags)", params[:query])
     end
   end
 
@@ -30,6 +32,8 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article.destroy
+
+    ArticleMailer.article_destroy_info(@article).deliver
 
     redirect_to articles_path
   end

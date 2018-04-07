@@ -6,13 +6,15 @@
 
 <%= form_tag articles_path, method: :get do %>
   <div class="input-group">
-    <%= text_field_tag :q, "", value: params[:q], class: "form-control" %>
+    <%= text_field_tag :query, "", value: params[:query], class: "form-control" %>
     <span class="input-group-btn">
       <%= submit_tag "Search", class: "btn btn-default" %>
       <%= link_to "Clear", articles_path, class: "btn btn-danger" %>
     </span>
   </div>
 <% end %>
+
+<%= will_paginate @articles, renderer: BootstrapPagination::Rails %>
 
 <table class='table table-hover'>
   <tr>
@@ -39,3 +41,5 @@
     </tr>
   <% end %>
 </table>
+
+<%= will_paginate @articles, renderer: BootstrapPagination::Rails %>
