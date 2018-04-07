@@ -1,6 +1,8 @@
 class Article < ApplicationRecord
   validates :title, presence: true, length: { minimum: 5 }
 
+  after_destroy :send_destroy_info
+
   has_many :comments, dependent: :destroy
   has_many :likes
   belongs_to :user
@@ -16,5 +18,9 @@ class Article < ApplicationRecord
 
   def sanitize_tags(text)
     text.split.map(&:downcase).uniq
+  end
+
+  def send_destroy_info
+    ArticleMailer.article_destroy_info(self).deliver
   end
 end
